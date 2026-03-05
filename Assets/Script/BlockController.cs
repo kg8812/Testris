@@ -33,6 +33,11 @@ public class BlockController : Observer
         {
             MoveRight();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            MoveToBottom();
+        }
         time += Time.deltaTime;
 
         if (Input.GetKey(KeyCode.DownArrow))
@@ -83,6 +88,15 @@ public class BlockController : Observer
         EventBus.Publish(EventType.AfterMove);
     }
 
+    void MoveToBottom()
+    {
+        while (currentBlock.DownMovable)
+        {
+            MoveDown();
+        }
+        
+        EventBus.Publish(EventType.BlockStack);
+    }
     void Rotate()
     {
         
@@ -93,7 +107,6 @@ public class BlockController : Observer
         {
             currentBlock.transform.Rotate(new Vector3(0, 0, -90));
             EventBus.Publish(EventType.AfterMove);
-
         }       
     }
     void Cancel()
